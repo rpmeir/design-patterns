@@ -1,0 +1,27 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "require-dev": {
+        "pestphp/pest": "^4.1"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "scripts": {
+        "test": "./vendor/bin/pest"
+    },
+    "autoload": {
+        "psr-4": {
+            "Src\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "vlucas/phpdotenv": "^5.6"
+    }
+}
