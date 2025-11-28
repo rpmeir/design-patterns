@@ -24,5 +24,5 @@ describe('MakeTransferTest', function () {
         expect($outputA->balance)->toBe(-100.0);
         $outputB = $getBalance->execute(2);
         expect($outputB->balance)->toBe(100.0);
-    })->only();
+    });
 });

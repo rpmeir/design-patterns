@@ -1,9 +1,11 @@
 <?php
 
 use Src\Gof\Behavioral\Mediator\AverageRepositoryDatabase;
+use Src\Gof\Behavioral\Mediator\AverageRepositoryInMemory;
 use Src\Gof\Behavioral\Mediator\CalculateAverage;
 use Src\Gof\Behavioral\Mediator\GetAverage;
 use Src\Gof\Behavioral\Mediator\GradeRepositoryDatabase;
+use Src\Gof\Behavioral\Mediator\GradeRepositoryInMemory;
 use Src\Gof\Behavioral\Mediator\Input;
 use Src\Gof\Behavioral\Mediator\Mediator;
 use Src\Gof\Behavioral\Mediator\PostgresDatabaseAdapter;
@@ -12,9 +14,17 @@ use Src\Gof\Behavioral\Mediator\SaveGradeMediator;
 
 test('Deve salvar a nota do aluno e calcular a média', function () {
     $studentId = mt_rand(100000, 200000);
-    $connection = new PostgresDatabaseAdapter();
-    $gradeRepository = new GradeRepositoryDatabase($connection);
-    $averageRepository = new AverageRepositoryDatabase($connection);
+    $inMemory = true;
+    if ($inMemory) {
+        $gradeRepository = new GradeRepositoryInMemory();
+        $averageRepository = new AverageRepositoryInMemory();
+    } else {
+        $connection = new PostgresDatabaseAdapter();
+        $gradeRepository = new GradeRepositoryDatabase($connection);
+        $averageRepository = new AverageRepositoryDatabase($connection);
+    }
+    $gradeRepository = new GradeRepositoryInMemory();
+    $averageRepository = new AverageRepositoryInMemory();
     $calculateAverage = new CalculateAverage($gradeRepository, $averageRepository);
     $saveGrade = new SaveGrade($gradeRepository, $calculateAverage);
     $inputP1 = new Input($studentId, 'P1', 10.0);
@@ -32,9 +42,15 @@ test('Deve salvar a nota do aluno e calcular a média', function () {
 
 test('Deve salvar a nota do aluno e calcular a média usando mediator', function () {
     $studentId = mt_rand(100000, 200000);
-    $connection = new PostgresDatabaseAdapter();
-    $gradeRepository = new GradeRepositoryDatabase($connection);
-    $averageRepository = new AverageRepositoryDatabase($connection);
+    $inMemory = true;
+    if ($inMemory) {
+        $gradeRepository = new GradeRepositoryInMemory();
+        $averageRepository = new AverageRepositoryInMemory();
+    } else {
+        $connection = new PostgresDatabaseAdapter();
+        $gradeRepository = new GradeRepositoryDatabase($connection);
+        $averageRepository = new AverageRepositoryDatabase($connection);
+    }
     $calculateAverage = new CalculateAverage($gradeRepository, $averageRepository);
     $mediator = new Mediator();
     $mediator->register('gradeSaved', function (array $data) use ($calculateAverage) {
