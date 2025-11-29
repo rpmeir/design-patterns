@@ -2,16 +2,30 @@
 
 declare(strict_types=1);
 use Src\Gof\Behavioral\Command\BankAccount;
+use Src\Gof\Behavioral\Command\TransferCommand;
 
 describe('CommandTest', function () {
     it('Deve fazer uma transferência entre duas contas', function () {
-        $bankAccountA =  new BankAccount();
-        $bankAccountB =  new BankAccount();
-        expect($bankAccountA->getBalance())->toBe(0.0);
-        expect($bankAccountB->getBalance())->toBe(0.0);
-        $bankAccountA->debit(100);
-        $bankAccountB->credit(100);
-        expect($bankAccountA->getBalance())->toBe(-100.0);
-        expect($bankAccountB->getBalance())->toBe(100.0);
+        $from =  new BankAccount();
+        $to =  new BankAccount();
+        expect($from->getBalance())->toBe(0.0);
+        expect($to->getBalance())->toBe(0.0);
+        $from->debit(100);
+        $to->credit(100);
+        expect($from->getBalance())->toBe(-100.0);
+        expect($to->getBalance())->toBe(100.0);
+    });
+});
+
+describe('CommandTest', function () {
+    it('Deve fazer uma transferência entre duas contas usando um comando', function () {
+        $from =  new BankAccount();
+        $to =  new BankAccount();
+        expect($from->getBalance())->toBe(0.0);
+        expect($to->getBalance())->toBe(0.0);
+        $transferCommand = new TransferCommand($from, $to, 100);
+        $transferCommand->execute();
+        expect($from->getBalance())->toBe(-100.0);
+        expect($to->getBalance())->toBe(100.0);
     });
 });

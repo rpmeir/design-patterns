@@ -15,8 +15,8 @@ class MakeTransfer
     {
         $from = $this->bankAccountRepository->getById($input->fromAccountId);
         $to = $this->bankAccountRepository->getById($input->toAccountId);
-        $from->debit($input->amount);
-        $to->credit($input->amount);
+        $transferCommand = new TransferCommand($from, $to, $input->amount);
+        $transferCommand->execute();
         $this->bankAccountRepository->update($from);
         $this->bankAccountRepository->update($to);
     }
