@@ -4,6 +4,8 @@ declare(strict_types=1);
 use Src\Gof\Behavioral\Command\BankAccount;
 use Src\Gof\Behavioral\Command\TransferCommand;
 
+pest()->group('CommandTests');
+
 describe('CommandTest', function () {
     it('Deve fazer uma transferência entre duas contas', function () {
         $from =  new BankAccount();
@@ -15,9 +17,7 @@ describe('CommandTest', function () {
         expect($from->getBalance())->toBe(-100.0);
         expect($to->getBalance())->toBe(100.0);
     });
-});
 
-describe('CommandTest', function () {
     it('Deve fazer uma transferência entre duas contas usando um comando', function () {
         $from =  new BankAccount();
         $to =  new BankAccount();
