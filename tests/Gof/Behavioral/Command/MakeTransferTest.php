@@ -7,8 +7,10 @@ use Src\Gof\Behavioral\Command\GetBalance;
 use Src\Gof\Behavioral\Command\MakeTransfer;
 use Src\Gof\Behavioral\Command\MakeTransferInput;
 
+pest()->group('CommandTests');
+
 describe('MakeTransferTest', function () {
-    it('Deve fazer uma tranferência bancária', function () {
+    test('Deve fazer uma tranferência bancária', function () {
         $bankAccountRepository = new BankAccountRepositoryInMemory();
         $bankAccountRepository->save(new BankAccount(1));
         $bankAccountRepository->save(new BankAccount(2));

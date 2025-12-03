@@ -12,6 +12,8 @@ use Src\Gof\Behavioral\Mediator\PostgresDatabaseAdapter;
 use Src\Gof\Behavioral\Mediator\SaveGrade;
 use Src\Gof\Behavioral\Mediator\SaveGradeMediator;
 
+pest()->group('MediatorTests');
+
 test('Deve salvar a nota do aluno e calcular a média', function () {
     $studentId = mt_rand(100000, 200000);
     $inMemory = true;
