@@ -9,12 +9,8 @@ function calc ($movArray)
     $result = 0;
     foreach ($movArray as $mov) {
         if ($mov['dist'] != null && is_numeric($mov['dist']) && $mov['dist'] > 0) {
-            try {
-                $date = new \DateTimeImmutable($mov['ds']);
-            } catch (\Exception $e) {
-                return -2;
-            }
-            if ($date != null && $date instanceof \DateTimeImmutable && $date != false)
+            $date = \date_create($mov['ds']);
+            if ($date != null && $date instanceof \DateTime && $date != false)
             {
                 // overnight
                 if($date->format('H:i') >= '22:00' || $date->format('H:i') <= '06:00')
@@ -39,6 +35,8 @@ function calc ($movArray)
                         $result += $mov['dist'] * 2.10;
                     }
                 }
+            } else {
+                return -2;
             }
         } else {
             return -1;
