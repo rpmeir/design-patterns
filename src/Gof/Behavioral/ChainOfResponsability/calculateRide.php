@@ -4,47 +4,45 @@ declare(strict_types=1);
 
 namespace Src\Gof\Behavioral\ChainOfResponsability;
 
-function calc ($movArray)
+function calculateFare ($segments)
 {
-    $result = 0;
-    foreach ($movArray as $mov) {
-        if ($mov['dist'] != null && is_numeric($mov['dist']) && $mov['dist'] > 0) {
-            $date = \date_create($mov['ds']);
-            if ($date != null && $date instanceof \DateTime && $date != false)
-            {
-                // overnight
-                if($date->format('H:i') >= '22:00' || $date->format('H:i') <= '06:00')
-                {
-                    // if day is not sunday
-                    if($date->format('N') != 7)
-                    {
-                        $result += $mov['dist'] * 3.90;
-                    }
-                    else
-                    {
-                        $result += $mov['dist'] * 5.0;
-                    }
-                } else {
-                    // daytime
-                    if($date->format('N') == 7)
-                    {
-                        $result += $mov['dist'] * 2.9;
-                    }
-                    else
-                    {
-                        $result += $mov['dist'] * 2.10;
-                    }
-                }
-            } else {
-                return -2;
-            }
-        } else {
-            return -1;
+    $fare = 0;
+    foreach ($segments as $segment) {
+        if (!isValidDistance($segment['distance'])) { throw new \InvalidArgumentException('Distância inválida'); }
+        $date = \date_create($segment['date']);
+        if (!isValidDate($date)) { throw new \InvalidArgumentException('Data inválida'); }
+        if (isOvernight($date) && !isSunday($date)) {
+            $fare += $segment['distance'] * 3.90;
+        }
+        if (isOvernight($date) && isSunday($date)) {
+            $fare += $segment['distance'] * 5.0;
+        }
+        if (!isOvernight($date) && isSunday($date)) {
+            $fare += $segment['distance'] * 2.9;
+        }
+        if (!isOvernight($date) && !isSunday($date)) {
+            $fare += $segment['distance'] * 2.10;
         }
     }
-    if ($result < 10) {
-        return 10;
-    } else {
-        return $result;
-    }
+    return $fare < 10 ? 10 : $fare;
+}
+
+function isValidDistance($distance): bool
+{
+    return $distance != null && is_numeric($distance) && $distance > 0;
+}
+
+function isValidDate($date): bool
+{
+    return $date != null && $date instanceof \DateTime && $date != false;
+}
+
+function isOvernight($date): bool
+{
+    return $date->format('H:i') >= '22:00' || $date->format('H:i') <= '06:00';
+}
+
+function isSunday($date): bool
+{
+    return $date->format('N') == 7;
 }
