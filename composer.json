@@ -14,7 +14,10 @@
     "autoload": {
         "psr-4": {
             "Src\\": "src/"
-        }
+        },
+        "files": [
+            "src/Gof/Behavioral/ChainOfResponsability/calculateRide.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
