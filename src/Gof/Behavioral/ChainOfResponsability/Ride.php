@@ -15,7 +15,7 @@ class Ride
         $this->fare = 0;
     }
 
-    public function addSegment(float $distance, \DateTime $date): void
+    public function addSegment(float $distance, \DateTime|false $date): void
     {
         $this->segments[] = new Segment($distance, $date);
     }

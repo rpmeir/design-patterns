@@ -9,18 +9,17 @@ function calculateFare ($segments)
     $fare = 0;
     foreach ($segments as $segment) {
         if (!isValidDistance($segment['distance'])) { throw new \InvalidArgumentException('Distância inválida'); }
-        $date = \date_create($segment['date']);
-        if (!isValidDate($date)) { throw new \InvalidArgumentException('Data inválida'); }
-        if (isOvernight($date) && !isSunday($date)) {
+        if (!isValidDate($segment['date'])) { throw new \InvalidArgumentException('Data inválida'); }
+        if (isOvernight($segment['date']) && !isSunday($segment['date'])) {
             $fare += $segment['distance'] * 3.90;
         }
-        if (isOvernight($date) && isSunday($date)) {
+        if (isOvernight($segment['date']) && isSunday($segment['date'])) {
             $fare += $segment['distance'] * 5.0;
         }
-        if (!isOvernight($date) && isSunday($date)) {
+        if (!isOvernight($segment['date']) && isSunday($segment['date'])) {
             $fare += $segment['distance'] * 2.9;
         }
-        if (!isOvernight($date) && !isSunday($date)) {
+        if (!isOvernight($segment['date']) && !isSunday($segment['date'])) {
             $fare += $segment['distance'] * 2.10;
         }
     }

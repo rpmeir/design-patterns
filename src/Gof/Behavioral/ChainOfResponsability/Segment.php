@@ -8,7 +8,7 @@ class Segment
 {
     public function __construct(
         public readonly float $distance,
-        public readonly \DateTime $date)
+        public readonly \DateTime|false $date)
     {
         if ($this->isValidDistance() === false) {
             throw new \InvalidArgumentException('Distância inválida');
