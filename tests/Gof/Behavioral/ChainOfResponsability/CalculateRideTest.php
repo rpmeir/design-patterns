@@ -7,9 +7,11 @@ use function Src\Gof\Behavioral\ChainOfResponsability\calculateFare;
 pest()->group('ChainOfResponsabilityTests');
 
 describe('CalculateRideTest', function () {
-    test('Deve calcular o valor da corrida no horário normal', function () {
+    $dateString = '2021-03-31T10:00:00';
+
+    test('Deve calcular o valor da corrida no horário normal', function () use ($dateString) {
         $movArray = [
-            ['distance' => 10, 'date' => '2021-03-31T10:00:00']
+            ['distance' => 10, 'date' => $dateString]
         ];
 
         $result = calculateFare($movArray);
@@ -43,18 +45,18 @@ describe('CalculateRideTest', function () {
         expect($result)->toBe(50.0);
     });
 
-    test('Deve calcular o valor da corrida com tarifa mínima', function () {
+    test('Deve calcular o valor da corrida com tarifa mínima', function () use ($dateString) {
         $movArray = [
-            ['distance' => 2, 'date' => '2021-03-31T10:00:00']
+            ['distance' => 2, 'date' => $dateString]
         ];
 
         $result = calculateFare($movArray);
         expect($result)->toBe(10);
     });
 
-    test('Não deve calcular o valor da corrida com distância inválida', function () {
+    test('Não deve calcular o valor da corrida com distância inválida', function () use ($dateString) {
         $movArray = [
-            ['distance' => -5, 'date' => '2021-03-31T10:00:00']
+            ['distance' => -5, 'date' => $dateString]
         ];
 
         expect(fn() => calculateFare($movArray))
