@@ -9,7 +9,7 @@ class Ride
     private array $segments = [];
     private float $fare;
 
-    public function __construct()
+    public function __construct(public readonly FareCalculator $fareCalculator)
     {
         $this->segments = [];
         $this->fare = 0;
@@ -24,18 +24,7 @@ class Ride
     {
         $this->fare = 0;
         foreach ($this->segments as $segment) {
-            if ($segment->isOvernight() && !$segment->isSunday()) {
-                $this->fare += $segment->distance * 3.90;
-            }
-            if ($segment->isOvernight() && $segment->isSunday()) {
-                $this->fare += $segment->distance * 5.0;
-            }
-            if (!$segment->isOvernight() && $segment->isSunday()) {
-                $this->fare += $segment->distance * 2.9;
-            }
-            if (!$segment->isOvernight() && !$segment->isSunday()) {
-                $this->fare += $segment->distance * 2.10;
-            }
+            $this->fare += $this->fareCalculator->calculate($segment);
         }
         $this->fare = $this->fare < 10 ? 10 : $this->fare;
     }

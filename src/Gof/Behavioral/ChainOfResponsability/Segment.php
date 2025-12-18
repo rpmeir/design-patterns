@@ -25,7 +25,7 @@ class Segment
 
     public function isValidDate(): bool
     {
-        return $this->date != null && $this->date instanceof \DateTimeInterface && $this->date != false;
+        return $this->date != null && $this->date instanceof \DateTimeInterface && $this->date !== false;
     }
 
     public function isOvernight(): bool

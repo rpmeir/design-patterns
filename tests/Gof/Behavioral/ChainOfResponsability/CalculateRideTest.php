@@ -36,7 +36,7 @@ describe('CalculateRideTest', function () {
         expect($result)->toBe(29.0);
     });
 
-    test('Deve calcular o valor da corrida no horário de domingo a noite', function () {
+    test('Deve calcular o valor da corrida no horário de domingo de noite', function () {
         $movArray = [
             ['distance' => 10, 'date' => '2021-03-07T23:00:00']
         ];
